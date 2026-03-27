@@ -1,0 +1,15 @@
+{
+  "name": "eventx-messenger-bot",
+  "version": "1.0.0",
+  "description": "EventX Messenger chatbot with AI intent detection",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "@anthropic-ai/sdk": "^0.39.0",
+    "axios": "^1.7.0"
+  }
+}
