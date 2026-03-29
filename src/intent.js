@@ -45,18 +45,51 @@ Intent жагсаалт:
 
 // Few-shot жишээнүүд — чи Intent Lab-аас export хийсэн жишээнүүдээ энд оруулна
 const FEW_SHOT = [
+  // Кирилл
   { role: 'user', content: 'сайн байна уу' },
   { role: 'assistant', content: '{"intents": [{"intent": "greeting", "confidence": 0.98, "entities": {}}], "primary_intent": "greeting"}' },
+  // Латин мэндчилгээ
+  { role: 'user', content: 'sain bain uu' },
+  { role: 'assistant', content: '{"intents": [{"intent": "greeting", "confidence": 0.92, "entities": {}}], "primary_intent": "greeting"}' },
+  { role: 'user', content: 'sn bnuu' },
+  { role: 'assistant', content: '{"intents": [{"intent": "greeting", "confidence": 0.85, "entities": {}}], "primary_intent": "greeting"}' },
+  { role: 'user', content: 'hello' },
+  { role: 'assistant', content: '{"intents": [{"intent": "greeting", "confidence": 0.95, "entities": {}}], "primary_intent": "greeting"}' },
+  { role: 'user', content: 'hi' },
+  { role: 'assistant', content: '{"intents": [{"intent": "greeting", "confidence": 0.93, "entities": {}}], "primary_intent": "greeting"}' },
+  // Олон intent
   { role: 'user', content: 'The Hu үнэ хэд вэ цаг нь хэд вэ' },
   { role: 'assistant', content: '{"intents": [{"intent": "ticket_price", "confidence": 0.93, "entities": {"event_name": "The Hu"}}, {"intent": "event_info", "confidence": 0.91, "entities": {"event_name": "The Hu"}}], "primary_intent": "ticket_price"}' },
+  // Латин үнэ
   { role: 'user', content: 'tkts hden we' },
   { role: 'assistant', content: '{"intents": [{"intent": "ticket_price", "confidence": 0.82, "entities": {}}], "primary_intent": "ticket_price"}' },
+  { role: 'user', content: 'une hed we' },
+  { role: 'assistant', content: '{"intents": [{"intent": "ticket_price", "confidence": 0.88, "entities": {}}], "primary_intent": "ticket_price"}' },
+  { role: 'user', content: 'hdeer bga we' },
+  { role: 'assistant', content: '{"intents": [{"intent": "ticket_price", "confidence": 0.83, "entities": {}}], "primary_intent": "ticket_price"}' },
+  // Захиалга
   { role: 'user', content: 'тасалбар авмаар байна' },
   { role: 'assistant', content: '{"intents": [{"intent": "booking_start", "confidence": 0.95, "entities": {}}], "primary_intent": "booking_start"}' },
+  { role: 'user', content: 'tslbr awya' },
+  { role: 'assistant', content: '{"intents": [{"intent": "booking_start", "confidence": 0.80, "entities": {}}], "primary_intent": "booking_start"}' },
+  { role: 'user', content: 'zahialga hiih' },
+  { role: 'assistant', content: '{"intents": [{"intent": "booking_start", "confidence": 0.88, "entities": {}}], "primary_intent": "booking_start"}' },
+  { role: 'user', content: 'тасалбар захиалах гэсэн юм' },
+  { role: 'assistant', content: '{"intents": [{"intent": "booking_start", "confidence": 0.95, "entities": {}}], "primary_intent": "booking_start"}' },
+  // Төлбөр асуудал
   { role: 'user', content: 'мөнгөө шилжүүлсэн тасалбар ирсэнгүй' },
   { role: 'assistant', content: '{"intents": [{"intent": "payment_issue", "confidence": 0.93, "entities": {}}], "primary_intent": "payment_issue"}' },
+  // Байршил + нас
   { role: 'user', content: 'хаана болох юм бэ хүүхэдтэйгээ очиж болох уу' },
   { role: 'assistant', content: '{"intents": [{"intent": "venue_info", "confidence": 0.90, "entities": {}}, {"intent": "age_restriction", "confidence": 0.89, "entities": {}}], "primary_intent": "venue_info"}' },
+  // Латин event мэдээлэл
+  { role: 'user', content: 'the hu hezee we' },
+  { role: 'assistant', content: '{"intents": [{"intent": "event_info", "confidence": 0.88, "entities": {"event_name": "The Hu"}}], "primary_intent": "event_info"}' },
+  // Арга хэмжээний жагсаалт
+  { role: 'user', content: 'yamar event bga we' },
+  { role: 'assistant', content: '{"intents": [{"intent": "event_list", "confidence": 0.85, "entities": {}}], "primary_intent": "event_list"}' },
+  { role: 'user', content: 'ямар концерт байна' },
+  { role: 'assistant', content: '{"intents": [{"intent": "event_list", "confidence": 0.92, "entities": {}}], "primary_intent": "event_list"}' },
 ];
 
 /**
@@ -149,11 +182,11 @@ function checkContextOverride(message, context) {
 function keywordFallback(message) {
   const lower = message.toLowerCase();
   const keywords = {
-    greeting: ['сайн байна уу', 'сайн уу', 'hello', 'hi', 'мэнд'],
-    event_list: ['ямар арга хэмжээ', 'ямар концерт', 'юу болох', 'жагсаалт'],
-    event_info: ['хэзээ', 'хаана', 'цаг', 'газар', 'мэдээлэл'],
-    ticket_price: ['үнэ', 'хэд', 'хэдээр', 'price'],
-    booking_start: ['захиалах', 'захиалга', 'авах', 'авъя', 'buy', 'book'],
+    greeting: ['сайн байна уу', 'сайн уу', 'hello', 'hi', 'мэнд', 'sain', 'bain uu', 'sn bn'],
+    event_list: ['ямар арга хэмжээ', 'ямар концерт', 'юу болох', 'жагсаалт', 'yamar event', 'yamar concert'],
+    event_info: ['хэзээ', 'хаана', 'цаг', 'газар', 'мэдээлэл', 'hezee', 'haana'],
+    ticket_price: ['үнэ', 'хэд', 'хэдээр', 'price', 'une', 'hden', 'hdeer'],
+    booking_start: ['захиалах', 'захиалга', 'авах', 'авъя', 'buy', 'book', 'zahialga', 'zahialah', 'awya', 'tslbr'],
     payment_info: ['төлбөр', 'төлөх', 'qpay', 'банк', 'карт'],
     payment_issue: ['төлсөн', 'баталгаажаагүй', 'ирсэнгүй'],
     refund: ['буцаалт', 'буцаах', 'цуцлах', 'refund'],

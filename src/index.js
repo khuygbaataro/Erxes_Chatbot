@@ -32,6 +32,10 @@ app.get('/webhook', (req, res) => {
 // ============================================
 // Facebook Webhook — Мессеж хүлээн авах
 // ============================================
+
+// Давхар мессеж шүүх (Facebook заримдаа ижил мессежийг 2 удаа илгээдэг)
+const processedMessages = new Set();
+
 app.post('/webhook', async (req, res) => {
   // Facebook 20 секундын дотор 200 хүлээдэг — эхлээд 200 буцааж, дараа нь process хийнэ
   res.sendStatus(200);
@@ -45,6 +49,13 @@ app.post('/webhook', async (req, res) => {
       if (!event.message || !event.message.text) continue;
       // Өөрийн илгээсэн мессежийг алгасна
       if (event.message.is_echo) continue;
+
+      // Давхар мессеж шүүх
+      const msgId = event.message.mid;
+      if (processedMessages.has(msgId)) continue;
+      processedMessages.add(msgId);
+      // 5 минутын дараа устгах (санах ойг хэмнэх)
+      setTimeout(() => processedMessages.delete(msgId), 5 * 60 * 1000);
 
       const senderId = event.sender.id;
       const text = event.message.text;
